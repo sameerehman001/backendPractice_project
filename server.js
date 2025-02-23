@@ -1,16 +1,19 @@
-const express = require('express')
-const dbConnection = require('./database/index')
-const { PORT } = require('./config/index');
+const express = require("express");
+const dbConnection = require("./database/index");
+const { PORT } = require("./config/index");
+const router = require("./routes/index");
+const errorHandler = require("./middlewares/errorHandler");
 
-const app = express()
+const app = express();
 
+app.use(express.json());
 
-dbConnection()
+app.use(router);
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+dbConnection();
+
+app.use(errorHandler);
 
 app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}`)
-})
+  console.log(`Example app listening on port ${PORT}`);
+});
